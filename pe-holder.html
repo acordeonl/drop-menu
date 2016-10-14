@@ -8,14 +8,22 @@
             [red] {
                 --star-color: red;
             }
+            [wrapper]{
+                width: 20% ;
+            }
+            drop-menu{
+                margin: 5vh ;
+            }
         </style>
-        <drop-menu>
+        <div wrapper>
+            <drop-menu list='["Denunciar spam o abuso" ,"Eliminar comentario"]'>
 
-        </drop-menu>
+            </drop-menu>
 
-        <drop-menu>
+            <drop-menu>
 
-        </drop-menu>
+            </drop-menu>
+        </div>
     </template>
     <script>
         Polymer({
