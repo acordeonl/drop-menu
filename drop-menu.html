@@ -1,0 +1,120 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="/bower_components/paper-material/paper-material.html">
+<link rel="import" href="/bower_components/paper-ripple/paper-ripple.html">
+<!--
+
+Shows drop down menu wi
+
+### Usage
+Rate can be set as an attribute.
+
+    <drop-menu rate="2.3"></drop-menu>
+
+If drop-menu is for reading only it can be set the following way and using a div tag with votes to set the number of votes for the rating
+
+    <drop-menu red rate="2" read-only>
+        <div votes>
+            &nbsp (12
+            votes)
+        </div>
+    </drop-menu>
+
+### Styling
+ Custom property | Description | Default
+----------------|-------------|----------
+`--star-color` | Color set for stars | `#4775D1`
+
+@demo /index.html
+-->
+<dom-module id="drop-menu">
+    <template>
+        <style>
+            :host {
+                --star-color: #4775D1;
+                --menu-width: 220px;
+                --item-color: #302f31;
+                --item-background-color: #f1ecef;
+            }
+            iron-icon {
+                color: var(--star-color);
+            }
+            paper-icon-button {
+                color: var(--star-color);
+                --paper-icon-button-disabled: {
+                    color: #4775D1;
+                };
+            }
+            [score] {
+                @apply(--layout-horizontal);
+                @apply(--layout-center);
+            }
+            paper-material {
+                @apply(--layout-vertical);
+                display: inline-block;
+                /*@apply(--layout-center);*/
+                /*width: var(--menu-width);*/
+            }
+            [listItem] {
+                /*padding:10px;*/
+                /*margin:2vh 2vh;*/
+                color: var(--item-color);
+                height: 40px;
+                width: 80%;
+                margin: 10px 15px;
+                @apply(--layout-center);
+                @apply(--layout-horizontal);
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                white-space: nowrap;
+            }
+            [wrapper] {
+                @apply(--layout-center);
+                @apply(--layout-vertical);
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+            [itemWrapper] {
+                position: relative;
+                width: 100%;
+                cursor: pointer;
+            }
+            [itemWrapper]:hover {
+                background-color: var(--item-background-color);
+            }
+        </style>
+        <paper-material>
+            <div wrapper>
+                <template id="domRepeat" is="dom-repeat" items="{{_list}}">
+                    <div itemWrapper>
+                        <paper-ripple></paper-ripple>
+                        <div listItem>
+                            {{item}}
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </paper-material>
+    </template>
+    <script>
+        Polymer({
+            is: "drop-menu",
+            observers: [],
+            behaviors: [],
+            listeners: {},
+            properties: {
+                _list: {
+                    type: Array,
+                    value: ["Denunciar spam o abuso", "Eliminar comentario"]
+                }
+            },
+            ready: function () {}
+        });
+    </script>
+</dom-module>
