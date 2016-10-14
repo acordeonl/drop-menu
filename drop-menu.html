@@ -59,7 +59,7 @@ If drop-menu is for reading only it can be set the following way and using a div
                 @apply(--layout-end-justified);
             }
             paper-material {
-                border-radius: 4px ;
+                border-radius: 4px;
                 @apply(--layout-vertical);
             }
             [wrapper] {
@@ -113,13 +113,13 @@ If drop-menu is for reading only it can be set the following way and using a div
         </style>
         <div wrapperMain>
             <div iconHolder>
-                <paper-icon-button on-tap="toggle" icon="more-vert"></paper-icon-button>
+                <paper-icon-button on-tap="open" icon="more-vert"></paper-icon-button>
             </div>
             <div menuHolder>
                 <paper-material id="menu">
                     <div wrapper>
                         <template id="domRepeat" is="dom-repeat" items="{{list}}">
-                            <div on-click="_itemClick" itemWrapper id="{{index}}">
+                            <div on-click="_itemClick" itemWrapper id="item{{index}}">
                                 <paper-ripple></paper-ripple>
                                 <div listItem>
                                     {{item}}
@@ -158,10 +158,16 @@ If drop-menu is for reading only it can be set the following way and using a div
                                 }, {
                                     name: 'scale-up-animation',
                                     node: this.$.menu,
-                                    transformOrigin:'right top'
+                                    transformOrigin: 'right top'
                                 }, {
                                     name: 'fade-in-animation',
                                     node: this.$.menu
+                                }, {
+                                    name: 'cascaded-animation',
+                                    animation: 'fade-in-animation',
+                                    timing: {
+                                        delay: 100
+                                    }
                                 }
                             ],
                             'close': [
@@ -171,7 +177,7 @@ If drop-menu is for reading only it can be set the following way and using a div
                                 }, {
                                     name: 'scale-down-animation',
                                     node: this.$.menu,
-                                    transformOrigin:'right top'
+                                    transformOrigin: 'right top'
                                 }, {
                                     name: 'fade-out-animation',
                                     node: this.$.menu,
@@ -186,24 +192,39 @@ If drop-menu is for reading only it can be set the following way and using a div
             },
             _itemClick: function (e) {
                 this.fire('item-click', {id: e.currentTarget.id});
+                this.async(this.close, 200);
             },
             _finishedAnim: function (e) {
-                if(this.state==='closed'){
+                if (this.state === 'closed') {
                     this.$.menu.style.display = 'none';
                 }
+                if (this.state === 'opening') {
+                    this.state = 'open';
+                }
             },
-            toggle: function () {
+            open: function () {
                 if (this.state === 'closed') {
                     this.$.menu.style.display = 'inline-block';
                     this.playAnimation('open');
-                    this.state = 'open';
+                    this.state = 'opening';
                 } else {
+                    this.close();
+                }
+            },
+            close: function () {
+                if (this.state === 'open') {
                     this.playAnimation('close');
                     this.state = 'closed';
                 }
             },
             ready: function () {
                 this.$.menu.style.display = 'none';
+            },
+            attached: function () {
+                this.async(function () {
+                    var nodeList = Polymer.dom(this.root).querySelectorAll('[itemWrapper]');
+                    this.animationConfig.open[3].nodes = Array.prototype.slice.call(nodeList);
+                });
             }
         });
     </script>
