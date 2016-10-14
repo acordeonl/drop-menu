@@ -27,9 +27,6 @@ list in drop down menu can be set as an attribute.
 <dom-module id="drop-menu">
     <template>
         <style button>
-            iron-icon {
-                color: var(--star-color);
-            }
             paper-icon-button {
                 @apply(--icon-button);
                 --paper-icon-button-disabled: {
@@ -149,19 +146,28 @@ list in drop down menu can be set as an attribute.
                             'open': [
                                 {
                                     name: 'slide-down-animation',
-                                    node: this.$.menu
+                                    node: this.$.menu,
+                                    timing: {
+                                        duration: 200
+                                    }
                                 }, {
                                     name: 'scale-up-animation',
                                     node: this.$.menu,
-                                    transformOrigin: 'right top'
+                                    transformOrigin: 'right top',
+                                    timing: {
+                                        duration: 200
+                                    }
                                 }, {
                                     name: 'fade-in-animation',
-                                    node: this.$.menu
+                                    node: this.$.menu,
+                                    timing: {
+                                        duration: 200
+                                    }
                                 }, {
                                     name: 'cascaded-animation',
                                     animation: 'fade-in-animation',
                                     timing: {
-                                        delay: 100
+                                        delay: 50
                                     }
                                 }
                             ],
