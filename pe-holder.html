@@ -19,7 +19,8 @@
             }
         </style>
         <div wrapper>
-            <drop-menu list='["Denunciar spam o abuso" ,"Eliminar comentario", "editar"]'></drop-menu>
+
+            <drop-menu onblur="alert('test')" list='["Denunciar spam o abuso" ,"Eliminar comentario", "editar"]'></drop-menu>
             <drop-menu list='["Condiciones de servicio", "Politicas de privacidad","coleto"]'></drop-menu>
             <drop-menu list='["Condiciones de servicio2", "Politicas de privacidad"]'></drop-menu>
 
@@ -44,11 +45,11 @@
                 // alert(e.detail.id);
             },
             _closeMenu: function () {
-                var nodeList = Polymer.dom(this.root).querySelectorAll('drop-menu');
-                for(var i = 0 ;i < nodeList.length ; i ++ ){
-                    if (nodeList[i].state==='open')
-                        nodeList[i].close() ;
-                }
+                // var nodeList = Polymer.dom(this.root).querySelectorAll('drop-menu');
+                // for(var i = 0 ;i < nodeList.length ; i ++ ){
+                //     if (nodeList[i].state==='open')
+                //         nodeList[i].close() ;
+                // }
             },
             attached: function () {
                 this.customStyle['--color'] = this.color;
