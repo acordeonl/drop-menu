@@ -111,7 +111,7 @@ list in drop down menu can be set as an attribute.
         </style>
         <div wrapperMain>
             <div iconHolder>
-                <paper-icon-button on-tap="open" icon="more-vert"></paper-icon-button>
+                <paper-icon-button on-click="open" icon="more-vert"></paper-icon-button>
             </div>
             <div menuHolder>
                 <paper-material id="menu">
@@ -218,9 +218,7 @@ list in drop down menu can be set as an attribute.
                     this.playAnimation('open');
                     this.$.toFocus.focus();
                     this.state = 'opening';
-                } else {
-                    this.close();
-                }
+                } 
             },
             close: function () {
                 if (this.state === 'open') {
