@@ -104,9 +104,6 @@ list in drop down menu can be set as an attribute.
             }
             #toFocus {
                 position: absolute;
-                /*opacity: 0;*/
-                /*height: 0;*/
-                /*width: 0;*/
             }
         </style>
         <div wrapperMain>
@@ -218,7 +215,7 @@ list in drop down menu can be set as an attribute.
                     this.playAnimation('open');
                     this.$.toFocus.focus();
                     this.state = 'opening';
-                } 
+                }
             },
             close: function () {
                 if (this.state === 'open') {
