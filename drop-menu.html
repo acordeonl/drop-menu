@@ -219,7 +219,7 @@ list in drop down menu can be set as an attribute.
                     this.playAnimation('open');
                     this.$.toFocus.focus();
                     this.state = 'opening';
-                } else {
+                } else if(this.state==='open') {
                     this.close();
                 }
             },
