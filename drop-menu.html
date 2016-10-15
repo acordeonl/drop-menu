@@ -115,7 +115,7 @@ list in drop down menu can be set as an attribute.
             </div>
             <div menuHolder>
                 <paper-material id="menu">
-                    <input id="toFocus" on-blur="close">
+                    <input id="toFocus" on-blur="unFocus">
                     <div wrapper>
                         <template id="domRepeat" is="dom-repeat" items="{{list}}">
                             <div on-click="_itemClick" itemWrapper id="item{{index}}">
@@ -204,8 +204,9 @@ list in drop down menu can be set as an attribute.
             this.async(this.close, 200);
         },
         _finishedAnim: function (e) {
-            if (this.state === 'closed') {
+            if (this.state === 'closing') {
                 this.$.menu.style.display = 'none';
+                this.state='closed' ;
             }
             if (this.state === 'opening') {
                 this.state = 'open';
@@ -224,11 +225,12 @@ list in drop down menu can be set as an attribute.
         close: function () {
             if (this.state === 'open') {
                 this.playAnimation('close');
-                this.state = 'closed';
+                this.state = 'closing';
             }
         },
         unFocus: function(){
-
+            this.playAnimation('close');
+            this.state = 'closing';
         },
         ready: function () {
             this.$.menu.style.display = 'none';
