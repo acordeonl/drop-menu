@@ -199,6 +199,7 @@ list in drop down menu can be set as an attribute.
         },
         _itemClick: function (e) {
             this.fire('item-click', {id: e.currentTarget.id});
+            alert(e.currentTarget.id); 
             this.async(this.close, 200);
         },
         _finishedAnim: function (e) {
