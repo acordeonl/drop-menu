@@ -43,7 +43,7 @@ list in drop down menu can be set as an attribute.
         <style menu>
             [menuHolder] {
                 width: 100%;
-                margin-top: 12px; 
+                margin-top: 12px;
                 @apply(--layout-horizontal);
                 @apply(--layout-end-justified);
             }
@@ -98,32 +98,27 @@ list in drop down menu can be set as an attribute.
                     margin-bottom: 10px;
                 };
             }
-            [wrapperMain] {
-                margin-right: 20px;
-            }
             #toFocus {
                 position: absolute;
             }
         </style>
-        <div wrapperMain>
-            <div iconHolder on-click="open">
-                <content select=[button]></content>
-            </div>
-            <div menuHolder>
-                <paper-material id="menu">
-                    <a id="toFocus" on-blur="unFocus" href=""></a>
-                        <div wrapper>
-                            <template id="domRepeat" is="dom-repeat" items="{{list}}">
-                                <div on-click="_itemClick" itemWrapper id="item{{index}}">
-                                    <paper-ripple></paper-ripple>
-                                    <div listItem>
-                                        {{item}}
-                                    </div>
-                                </div>
-                            </template>
+        <div iconHolder on-click="open">
+            <content select=[button]></content>
+        </div>
+        <div menuHolder>
+            <paper-material id="menu">
+                <a id="toFocus" on-blur="unFocus" href=""></a>
+                <div wrapper>
+                    <template id="domRepeat" is="dom-repeat" items="{{list}}">
+                        <div on-click="_itemClick" itemWrapper id="item{{index}}">
+                            <paper-ripple></paper-ripple>
+                            <div listItem>
+                                {{item}}
+                            </div>
                         </div>
-                </paper-material>
-            </div>
+                    </template>
+                </div>
+            </paper-material>
         </div>
     </template>
     <script>
@@ -237,4 +232,3 @@ list in drop down menu can be set as an attribute.
         });
     </script>
 </dom-module>
-`
