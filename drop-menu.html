@@ -42,10 +42,13 @@ list in drop down menu can be set as an attribute.
             }
             paper-material {
                 position: absolute;
-                margin-top: -45px;
                 background-color: white;
                 border-radius: 4px;
+                margin-top: 5px;
                 z-index: 5000;
+            }
+            [overlay] {
+                margin-top: -45px;
             }
             [wrapper] {
                 @apply(--layout-center);
@@ -87,7 +90,7 @@ list in drop down menu can be set as an attribute.
         </style>
         <paper-icon-button on-click="open" icon="more-vert"></paper-icon-button>
         <div menuHolder>
-            <paper-material id="menu">
+            <paper-material overlay$={{overlayMenu}} id="menu">
                 <a id="toFocus" on-blur="unFocus" href=""></a>
                 <div wrapper>
                     <template id="domRepeat" is="dom-repeat" items="{{list}}">
@@ -114,9 +117,13 @@ list in drop down menu can be set as an attribute.
                 list: {
                     type: Array
                 },
-                listItems:{
-                    type:Array,
-                    value:['default']
+                overlayMenu: {
+                    type: Boolean,
+                    value: false
+                },
+                listItems: {
+                    type: Array,
+                    value: ['default']
                 },
                 state: {
                     type: String,
@@ -173,9 +180,9 @@ list in drop down menu can be set as an attribute.
                     }
                 }
             },
-            _action: function(e){
-                var id = "#"+e.currentTarget.id ;
-                this.fire( 'menu-action', {action:this.$$(id).innerHTML}) ;
+            _action: function (e) {
+                var id = "#" + e.currentTarget.id;
+                this.fire('menu-action', {action: this.$$(id).innerHTML});
             },
             _itemClick: function (e) {
                 this.fire('item-click', {id: e.currentTarget.id});
@@ -210,8 +217,7 @@ list in drop down menu can be set as an attribute.
             },
             ready: function () {
                 this.$.menu.style.display = 'none';
-                // console.log(this.listItems);
-                this.list = this.listItems ;
+                this.list = this.listItems;
             },
             attached: function () {
                 this.async(function () {
