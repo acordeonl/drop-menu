@@ -112,8 +112,11 @@ list in drop down menu can be set as an attribute.
             },
             properties: {
                 list: {
-                    type: Array,
-                    value: ["Condiciones de servicio", "Politicas de privacidad"]
+                    type: Array
+                },
+                listItems:{
+                    type:Array,
+                    value:['default']
                 },
                 state: {
                     type: String,
@@ -203,6 +206,228 @@ list in drop down menu can be set as an attribute.
             },
             ready: function () {
                 this.$.menu.style.display = 'none';
+                // console.log(this.listItems);
+                this.list = this.listItems ;
+            },
+            attached: function () {
+                this.async(function () {
+                    var nodeList = Polymer.dom(this.root).querySelectorAll('[itemWrapper]');
+                    this.animationConfig.open[3].nodes = Array.prototype.slice.call(nodeList);
+                });
+            }
+        });
+    </script>
+</dom-module>
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="/bower_components/paper-material/paper-material.html">
+<link rel="import" href="/bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="/bower_components/neon-animation/neon-animations.html">
+<link rel="import" href="/bower_components/neon-animation/neon-animation-runner-behavior.html">
+<!--
+
+Shows drop down menu wi
+
+### Usage
+list in drop down menu can be set as an attribute.
+
+    <drop-menu list='["Denunciar spam o abuso" ,"Eliminar comentario", "editar"]'></drop-menu>
+
+
+
+### Styling
+ Custom property | Description | Default
+----------------|-------------|----------
+`--star-color` | Color set for stars | `#4775D1`
+
+@demo /index.html
+-->
+<dom-module id="drop-menu">
+    <template>
+        <style button>
+            paper-icon-button {
+                @apply(--icon-button);
+            }
+            paper-icon-button:hover {
+                color: var(--close-color);
+            }
+        </style>
+        <style menu>
+            [menuHolder] {
+                width: 100%;
+                @apply(--layout-horizontal);
+                @apply(--layout-end-justified);
+            }
+            paper-material {
+                position: absolute;
+                margin-top: -45px;
+                background-color: white;
+                border-radius: 4px;
+                z-index: 5000;
+            }
+            [wrapper] {
+                @apply(--layout-center);
+                @apply(--layout-vertical);
+                margin-top: 10px;
+                margin-bottom: 10px;
+                width: 100%;
+                @apply(--layout-end-justified);
+            }
+            [itemWrapper] {
+                position: relative;
+                width: 100%;
+                cursor: pointer;
+            }
+            [itemWrapper]:hover {
+                background-color: var(--item-background-color);
+            }
+            [listItem] {
+                color: var(--item-color);
+                white-space: nowrap;
+                height: 40px;
+                width: 80%;
+                margin: 10px 15px;
+                @apply(--layout-center);
+                @apply(--layout-horizontal);
+                user-select: none;
+            }
+        </style>
+        <style>
+            :host {
+                --menu-width: 220px;
+                --item-color: #302f31;
+                --item-background-color: #f1ecef;
+                --close-color: #4775D1;
+                --content-background: white;
+                --paper-icon-button-background: #eaeaea;
+                --icon-button: {};
+            }
+        </style>
+        <paper-icon-button on-click="open" icon="more-vert"></paper-icon-button>
+        <div menuHolder>
+            <paper-material id="menu">
+                <a id="toFocus" on-blur="unFocus" href=""></a>
+                <div wrapper>
+                    <template id="domRepeat" is="dom-repeat" items="{{list}}">
+                        <div on-click="_itemClick" itemWrapper id="item{{index}}">
+                            <paper-ripple></paper-ripple>
+                            <div listItem>
+                                {{item}}
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </paper-material>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: "drop-menu",
+            observers: [],
+            behaviors: [Polymer.NeonAnimationRunnerBehavior],
+            listeners: {
+                'neon-animation-finish': '_finishedAnim'
+            },
+            properties: {
+                list: {
+                    type: Array
+                },
+                listItems:{
+                    type:Array,
+                    value:['default']
+                },
+                state: {
+                    type: String,
+                    value: 'closed'
+                },
+                animationConfig: {
+                    value: function () {
+                        return {
+                            'open': [
+                                {
+                                    name: 'slide-down-animation',
+                                    node: this.$.menu,
+                                    timing: {
+                                        duration: 200
+                                    }
+                                }, {
+                                    name: 'scale-up-animation',
+                                    node: this.$.menu,
+                                    transformOrigin: 'right top',
+                                    timing: {
+                                        duration: 200
+                                    }
+                                }, {
+                                    name: 'fade-in-animation',
+                                    node: this.$.menu,
+                                    timing: {
+                                        duration: 200
+                                    }
+                                }, {
+                                    name: 'cascaded-animation',
+                                    animation: 'fade-in-animation',
+                                    timing: {
+                                        delay: 50
+                                    }
+                                }
+                            ],
+                            'close': [
+                                {
+                                    name: 'slide-up-animation',
+                                    node: this.$.menu
+                                }, {
+                                    name: 'scale-down-animation',
+                                    node: this.$.menu,
+                                    transformOrigin: 'right top'
+                                }, {
+                                    name: 'fade-out-animation',
+                                    node: this.$.menu,
+                                    timing: {
+                                        duration: 300
+                                    }
+                                }
+                            ]
+                        };
+                    }
+                }
+            },
+            _itemClick: function (e) {
+                this.fire('item-click', {id: e.currentTarget.id});
+                this.async(this.close, 200);
+            },
+            _finishedAnim: function (e) {
+                if (this.state === 'closing') {
+                    this.$.menu.style.display = 'none';
+                    this.state = 'closed';
+                }
+                if (this.state === 'opening') {
+                    this.state = 'open';
+                }
+            },
+            open: function () {
+                if (this.state === 'closed') {
+                    this.$.menu.style.display = 'inline-block';
+                    this.playAnimation('open');
+                    this.$.toFocus.focus();
+                    this.state = 'opening';
+                }
+            },
+            close: function () {
+                if (this.state === 'open') {
+                    this.playAnimation('close');
+                    this.state = 'closing';
+                }
+            },
+            unFocus: function () {
+                this.playAnimation('close');
+                this.state = 'closing';
+            },
+            ready: function () {
+                this.$.menu.style.display = 'none';
+                // console.log(this.listItems);
+                this.list = this.listItems ;
             },
             attached: function () {
                 this.async(function () {
