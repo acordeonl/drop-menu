@@ -1,3 +1,4 @@
+
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="/bower_components/iron-icons/iron-icons.html">
@@ -28,32 +29,27 @@ list in drop down menu can be set as an attribute.
     <template>
         <style button>
             paper-icon-button {
-                @apply(--icon-button);
-                --paper-icon-button-disabled: {
-                    color: #4775D1;
-                };
             }
             paper-icon-button:hover {
                 color: var(--close-color);
             }
-            [iconHolder] {
-                width: 100%;
-                margin-bottom: 10px ;
-                @apply(--layout-horizontal);
-                @apply(--layout-end-justified);
-            }
+            [iconHolder] {}
         </style>
         <style menu>
             [menuHolder] {
+                /*position: absolute;*/
+                /*margin-top: 20px ;*/
                 width: 100%;
                 @apply(--layout-horizontal);
                 @apply(--layout-end-justified);
             }
             paper-material {
-                background-color: var(--content-background);
+                position: absolute;
+                margin-top: 5px ;
+                background-color: white;
                 border-radius: 4px;
                 z-index: 5000;
-                @apply(--layout-vertical);
+                /*@apply(--layout-vertical);*/
             }
             [wrapper] {
                 @apply(--layout-center);
@@ -84,8 +80,8 @@ list in drop down menu can be set as an attribute.
         </style>
         <style>
             :host {
-                height: 0px;
-                width: 60px;
+                /*height: 0;
+                width: 60px;*/
                 --menu-width: 220px;
                 --item-color: #302f31;
                 --item-background-color: #f1ecef;
@@ -100,13 +96,15 @@ list in drop down menu can be set as an attribute.
                     width: 40px;
                 };
             }
+            [drop-menu] {
+                height: 0;
+                /*width: 40px;*/
+            }
             #toFocus {
-                position: absolute;
+                /*position: absolute;*/
             }
         </style>
-        <div iconHolder>
-            <paper-icon-button on-click="open" icon="more-vert"></paper-icon-button>
-        </div>
+        <paper-icon-button on-click="open" icon="more-vert"></paper-icon-button>
         <div menuHolder>
             <paper-material id="menu">
                 <a id="toFocus" on-blur="unFocus" href=""></a>
@@ -207,6 +205,7 @@ list in drop down menu can be set as an attribute.
             open: function () {
                 if (this.state === 'closed') {
                     this.$.menu.style.display = 'inline-block';
+                    // this.$.menu.style.marginTop ='200px' ;
                     this.playAnimation('open');
                     this.$.toFocus.focus();
                     this.state = 'opening';
