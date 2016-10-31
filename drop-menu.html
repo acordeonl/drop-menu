@@ -59,6 +59,7 @@ list in drop down menu can be set as an attribute.
             [itemWrapper] {
                 position: relative;
                 width: 100%;
+                height: 100% ;
                 cursor: pointer;
             }
             [itemWrapper]:hover {
@@ -92,9 +93,9 @@ list in drop down menu can be set as an attribute.
                 <a id="toFocus" on-blur="unFocus" href=""></a>
                 <div wrapper>
                     <template id="domRepeat" is="dom-repeat" items="{{list}}">
-                        <div on-click="_itemClick" itemWrapper id="item{{index}}">
+                        <div on-click="_action" action={{item}} itemWrapper id="item{{index}}">
                             <paper-ripple></paper-ripple>
-                            <div listItem id="listItem_{{index}}" on-click="_action">
+                            <div listItem >
                                 {{item}}
                             </div>
                         </div>
@@ -180,11 +181,7 @@ list in drop down menu can be set as an attribute.
             },
             _action: function(e){
                 var id = "#"+e.currentTarget.id ;
-                this.fire( 'menu-action', {action:this.$$(id).innerHTML}) ;
-            },
-            _itemClick: function (e) {
-                this.fire('item-click', {id: e.currentTarget.id});
-                this.async(this.close, 200);
+                this.fire( 'menu-action', {action:this.$$(id).action}) ;
             },
             _finishedAnim: function (e) {
                 if (this.state === 'closing') {
@@ -210,8 +207,10 @@ list in drop down menu can be set as an attribute.
                 }
             },
             unFocus: function () {
-                this.playAnimation('close');
-                this.state = 'closing';
+                this.async(function(){
+                    this.playAnimation('close');
+                    this.state = 'closing';
+                } , 200 ) ;
             },
             ready: function () {
                 this.$.menu.style.display = 'none';
