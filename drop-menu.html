@@ -40,9 +40,16 @@ list in drop down menu can be set as an attribute.
                 right:5px;
                 margin-top:5px;
             }
+            [laptop] paper-material{
+                margin-right: 17px ;
+            }
+            [laptop][overlay] paper-material{
+                margin-right: 0 ;
+            }
             paper-material {
                 background-color: white;
                 border-radius: 4px;
+                min-width: 170px ;
             }
             [overlay]{
                 right:-5px ;
@@ -70,7 +77,7 @@ list in drop down menu can be set as an attribute.
                 white-space: nowrap;
                 height: 40px;
                 width: 80%;
-                margin: 10px 15px;
+                margin: 10px 25px;
                 @apply(--layout-center);
                 @apply(--layout-horizontal);
                 user-select: none;
@@ -78,7 +85,6 @@ list in drop down menu can be set as an attribute.
         </style>
         <style>
             :host {
-                --menu-width: 220px;
                 --item-color: #302f31;
                 --item-background-color: #f1ecef;
                 --close-color: #4775D1;
@@ -87,8 +93,12 @@ list in drop down menu can be set as an attribute.
                 --icon-button: {};
             }
         </style>
+        <iron-media-query query="(max-width:700px)" query-matches="{{mobile}}"></iron-media-query>
+        <iron-media-query query="(min-width:701px) and (max-width:900px)" query-matches="{{tablet}}"></iron-media-query>
+        <iron-media-query query="(min-width:901px)" query-matches="{{laptop}}"></iron-media-query>
         <paper-icon-button on-click="open" icon="more-vert"></paper-icon-button>
-        <div menuHolder overlay$={{overlayMenu}}  >
+
+        <div menuHolder overlay$={{overlayMenu}} mobile$="{{mobile}}" tablet$="{{tablet}}" laptop$="{{laptop}}" >
             <paper-material id="menu">
                 <a id="toFocus" on-blur="unFocus" href=""></a>
                 <div wrapper>
