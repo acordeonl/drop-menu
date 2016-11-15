@@ -100,7 +100,7 @@ list in drop down menu can be set as an attribute.
 
         <div menuHolder overlay$={{overlayMenu}} mobile$="{{mobile}}" tablet$="{{tablet}}" laptop$="{{laptop}}" >
             <paper-material id="menu">
-                <a id="toFocus" on-blur="unFocus" href=""></a>
+                <a id="toFocus" on-blur="_unFocus" href=""></a>
                 <div wrapper>
                     <template id="domRepeat" is="dom-repeat" items="{{list}}">
                         <div on-click="_action" action={{item}} itemWrapper id="item{{index}}">
@@ -126,14 +126,17 @@ list in drop down menu can be set as an attribute.
                 list: {
                     type: Array
                 },
+                // OverlayMenu at opening button
                 overlayMenu:{
                     type:Boolean,
                     value:false
                 },
+                // Displayed menu items
                 listItems:{
                     type:Array,
                     value:['default']
                 },
+                // States if drop-menu is opened or close
                 state: {
                     type: String,
                     value: 'closed'
@@ -202,6 +205,9 @@ list in drop down menu can be set as an attribute.
                     this.state = 'open';
                 }
             },
+            /**
+             * Opens drop-menu
+             */
             open: function () {
                 if (this.state === 'closed') {
                     this.$.menu.style.display = 'inline-block';
@@ -210,13 +216,16 @@ list in drop down menu can be set as an attribute.
                     this.state = 'opening';
                 }
             },
+            /**
+             * Closes drop-menu
+             */
             close: function () {
                 if (this.state === 'open') {
                     this.playAnimation('close');
                     this.state = 'closing';
                 }
             },
-            unFocus: function () {
+            _unFocus: function () {
                 this.async(function(){
                     this.playAnimation('close');
                     this.state = 'closing';
