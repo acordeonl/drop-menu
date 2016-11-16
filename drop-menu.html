@@ -13,17 +13,25 @@
 
 Shows drop down menu (works on chrome)
 
+
 ### Usage
-list in drop down menu can be set as an attribute.
+The list displayed in the drop down menu can be set as an attribute.
 
     <drop-menu list-items='["first" ,"second"]'></drop-menu>
 
+For an overlayed drop menu:
 
+    <drop-menu overlay-menu list-items='["first" ,"second"]'></drop-menu>
 
 ### Styling
  Custom property | Description | Default
 ----------------|-------------|----------
-`--star-color` | Color set for stars | `#4775D1`
+`--item-background-color` | List item backround color | `#f1ecef`
+`--item-color` | List item color used for fonts | `#302f31`
+`--close-color` | Icon button hover color | `4775D1`
+`--content-background` | Drop menu's background color | `white`
+`--close-color` | Icon button hover color | `4775D1`
+`--icon-button` | Mixin applied the icon button | `{}`
 
 @demo demo/drop-menu-demo.html
 -->
@@ -88,11 +96,12 @@ list in drop down menu can be set as an attribute.
         </style>
         <style>
             :host {
+                position:relative;
+                z-index: 100 ;
                 --item-color: #302f31;
                 --item-background-color: #f1ecef;
                 --close-color: #4775D1;
                 --content-background: white;
-                --paper-icon-button-background: #eaeaea;
                 --icon-button: {};
             }
         </style>

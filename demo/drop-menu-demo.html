@@ -6,7 +6,7 @@
         </title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no">
-        <link rel="import" href="../menu-holder.html">
+        <link rel="import" href="../drop-menu.html">
         <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
         <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     </head>
@@ -19,10 +19,16 @@
     </style>
     <body>
         <div class="vertical-section-container centered">
-            <h3>Editable star-rating</h3>
+            <h3>Unoverlayed Drop menu</h3>
             <demo-snippet class="centered-demo">
                 <template>
-                    <menu-holder ></menu-holder>
+                    <drop-menu list-items='["first item" ,"second"]'></drop-menu>
+                </template>
+            </demo-snippet>
+            <h3>Overlayed drop menu</h3>
+            <demo-snippet class="centered-demo">
+                <template>
+                    <drop-menu overlay-menu list-items='["overlayed first" ,"other"]'></drop-menu>
                 </template>
             </demo-snippet>
         </div>
