@@ -104,11 +104,9 @@ For an overlayed drop menu:
                 --icon-button: {};
             }
         </style>
-        <iron-media-query query="(max-width:700px)" query-matches="{{mobile}}"></iron-media-query>
-        <iron-media-query query="(min-width:701px) and (max-width:900px)" query-matches="{{tablet}}"></iron-media-query>
         <iron-media-query query="(min-width:901px)" query-matches="{{laptop}}"></iron-media-query>
         <paper-icon-button on-click="open" icon="more-vert"></paper-icon-button>
-        <div menuHolder overlay$={{overlayMenu}} mobile$="{{mobile}}" tablet$="{{tablet}}" laptop$="{{laptop}}">
+        <div menuHolder overlay$={{overlayMenu}} laptop$="{{laptop}}">
             <paper-material id="menu">
                 <a id="toFocus" on-blur="_unFocus" href=""></a>
                 <div wrapper>
