@@ -201,8 +201,9 @@ For an overlayed drop menu:
                 }
             },
             _action: function (e) {
-                var id = "#" + e.currentTarget.id;
-                this.fire('menu-action', {action: this.$$(id).action});
+                // var id = "#" + e.currentTarget.id;
+                // this.fire('menu-action', {action: this.$$(id).action});
+                this.fire('menu-action',{id:e.currentTarget.id})
             },
             _finishedAnim: function (e) {
                 if (this.state === 'closing') {
