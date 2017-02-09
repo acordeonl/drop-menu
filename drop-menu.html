@@ -41,7 +41,7 @@ For an overlayed drop menu:
                 @apply(--icon-button);
             }
             paper-icon-button:hover {
-                color: var(--close-color);
+                color: var(--close-color,#4775D1);
             }
         </style>
         <style menu>
@@ -57,7 +57,7 @@ For an overlayed drop menu:
                 margin-right: 0;
             }
             paper-material {
-                background-color: white;
+                background-color: var(--content-background);
                 border-radius: 4px;
                 min-width: 170px;
             }
@@ -80,10 +80,10 @@ For an overlayed drop menu:
                 cursor: pointer;
             }
             [itemWrapper]:hover {
-                background-color: var(--item-background-color);
+                background-color: var(--item-background-color,#f1ecef);
             }
             [listItem] {
-                color: var(--item-color);
+                color: var(--item-color,#302f31);
                 white-space: nowrap;
                 height: 40px;
                 width: 80%;
@@ -97,9 +97,6 @@ For an overlayed drop menu:
             :host {
                 position:relative;
                 z-index: 100 ;
-                --item-color: #302f31;
-                --item-background-color: #f1ecef;
-                --close-color: #4775D1;
                 --content-background: white;
                 --icon-button: {};
             }
