@@ -50,10 +50,10 @@ For an overlayed drop menu:
                 right: 5px;
                 margin-top: 5px;
             }
-            [laptop] paper-material {
+            [desktop] paper-material {
                 margin-right: 17px;
             }
-            [laptop][overlay] paper-material {
+            [desktop][overlay] paper-material {
                 margin-right: 0;
             }
             paper-material {
@@ -100,9 +100,9 @@ For an overlayed drop menu:
                 --icon-button: {};
             }
         </style>
-        <iron-media-query query="(min-width:901px)" query-matches="{{laptop}}"></iron-media-query>
+        <iron-media-query query="(min-width:901px)" query-matches="{{desktop}}"></iron-media-query>
         <paper-icon-button on-click="open" icon="more-vert"></paper-icon-button>
-        <div menuHolder overlay$={{overlayMenu}} laptop$="{{laptop}}">
+        <div menuHolder overlay$={{overlayMenu}} desktop$="{{desktop}}">
             <paper-material id="menu">
                 <a id="toFocus" on-blur="_unFocus" href=""></a>
                 <div wrapper>
