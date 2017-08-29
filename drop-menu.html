@@ -38,7 +38,7 @@ For an overlayed drop menu:
     <template>
         <style button>
             paper-icon-button {
-                @apply(--icon-button);
+                @apply --icon-button;
             }
             paper-icon-button:hover {
                 color: var(--theme-color1,#4775D1);
@@ -57,7 +57,7 @@ For an overlayed drop menu:
                 margin-right: 0;
             }
             paper-material {
-                background-color: var(--content-background);
+                background-color: var(--content-background ,white);
                 border-radius: 4px;
                 min-width: 170px;
             }
@@ -66,12 +66,12 @@ For an overlayed drop menu:
                 top: -10px;
             }
             [wrapper] {
-                @apply(--layout-center);
-                @apply(--layout-vertical);
+                @apply --layout-center;
+                @apply --layout-vertical;
                 margin-top: 10px;
                 margin-bottom: 10px;
                 width: 100%;
-                @apply(--layout-end-justified);
+                @apply --layout-end-justified;
             }
             [itemWrapper] {
                 position: relative;
@@ -88,8 +88,8 @@ For an overlayed drop menu:
                 height: 40px;
                 width: 80%;
                 margin: 10px 25px;
-                @apply(--layout-center);
-                @apply(--layout-horizontal);
+                @apply --layout-center;
+                @apply --layout-horizontal;
             }
         </style>
         <style>
@@ -97,7 +97,9 @@ For an overlayed drop menu:
                 position:relative;
                 z-index: 100 ;
                 --content-background: white;
-                --icon-button: {};
+                --icon-button: {
+                    
+                };
             }
         </style>
         <iron-media-query query="(min-width:901px)" query-matches="{{desktop}}"></iron-media-query>
@@ -144,56 +146,6 @@ For an overlayed drop menu:
                 state: {
                     type: String,
                     value: 'closed'
-                },
-                animationConfig: {
-                    value: function () {
-                        return {
-                            'open': [
-                                {
-                                    name: 'slide-down-animation',
-                                    node: this.$.menu,
-                                    timing: {
-                                        duration: 200
-                                    }
-                                }, {
-                                    name: 'scale-up-animation',
-                                    node: this.$.menu,
-                                    transformOrigin: 'right top',
-                                    timing: {
-                                        duration: 200
-                                    }
-                                }, {
-                                    name: 'fade-in-animation',
-                                    node: this.$.menu,
-                                    timing: {
-                                        duration: 200
-                                    }
-                                }, {
-                                    name: 'cascaded-animation',
-                                    animation: 'fade-in-animation',
-                                    timing: {
-                                        delay: 50
-                                    }
-                                }
-                            ],
-                            'close': [
-                                {
-                                    name: 'slide-up-animation',
-                                    node: this.$.menu
-                                }, {
-                                    name: 'scale-down-animation',
-                                    node: this.$.menu,
-                                    transformOrigin: 'right top'
-                                }, {
-                                    name: 'fade-out-animation',
-                                    node: this.$.menu,
-                                    timing: {
-                                        duration: 300
-                                    }
-                                }
-                            ]
-                        };
-                    }
                 }
             },
             _action: function (e) {
@@ -237,6 +189,52 @@ For an overlayed drop menu:
                 }, 200);
             },
             ready: function () {
+                this.animationConfig = {
+                    'open': [
+                        {
+                            name: 'slide-down-animation',
+                            node: this.$.menu,
+                            timing: {
+                                duration: 200
+                            }
+                        }, {
+                            name: 'scale-up-animation',
+                            node: this.$.menu,
+                            transformOrigin: 'right top',
+                            timing: {
+                                duration: 200
+                            }
+                        }, {
+                            name: 'fade-in-animation',
+                            node: this.$.menu,
+                            timing: {
+                                duration: 200
+                            }
+                        }, {
+                            name: 'cascaded-animation',
+                            animation: 'fade-in-animation',
+                            timing: {
+                                delay: 50
+                            }
+                        }
+                    ],
+                    'close': [
+                        {
+                            name: 'slide-up-animation',
+                            node: this.$.menu
+                        }, {
+                            name: 'scale-down-animation',
+                            node: this.$.menu,
+                            transformOrigin: 'right top'
+                        }, {
+                            name: 'fade-out-animation',
+                            node: this.$.menu,
+                            timing: {
+                                duration: 300
+                            }
+                        }
+                    ]
+                }
                 this.$.menu.style.display = 'none';
                 this.list = this.listItems;
             },
