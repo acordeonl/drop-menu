@@ -1,5 +1,6 @@
 <imports >
-    <link rel="import" href="../polymer/polymer.html">
+    <link rel="import" href="../polymer/polymer-element.html">
+    <link rel="import" href="../polymer/lib/utils/render-status.html">
     <link rel="import" href="../paper-icon-button/paper-icon-button.html">
     <link rel="import" href="../iron-icons/iron-icons.html">
     <link rel="import" href="../iron-icon/iron-icon.html">
@@ -9,31 +10,7 @@
     <link rel="import" href="../neon-animation/neon-animation-runner-behavior.html">
     <link rel="import" href="../iron-media-query/iron-media-query.html">
 </imports>
-<!--
 
-Shows drop down menu (works on chrome)
-
-### Usage
-The list displayed in the drop down menu can be set as an attribute.
-
-    <drop-menu list-items='["first" ,"second"]'></drop-menu>
-
-For an overlayed drop menu:
-
-    <drop-menu overlay-menu list-items='["first" ,"second"]'></drop-menu>
-
-### Styling
- Custom property | Description | Default
-----------------|-------------|----------
-`--item-background-color` | List item backround color | `#f1ecef`
-`--item-color` | List item color used for fonts | `#302f31`
-`--theme-color1` | Icon button hover color | `4775D1`
-`--content-background` | Drop menu's background color | `white`
-`--theme-color1` | Icon button hover color | `4775D1`
-`--icon-button` | Mixin applied the icon button | `{}`
-
-@demo demo/drop-menu-demo.html
--->
 <dom-module id="drop-menu">
     <template>
         <style button>
@@ -121,39 +98,27 @@ For an overlayed drop menu:
         </div>
     </template>
     <script>
-        Polymer({
-            is: "drop-menu",
-            observers: [],
-            behaviors: [Polymer.NeonAnimationRunnerBehavior],
-            listeners: {
-                'neon-animation-finish': '_finishedAnim'
-            },
-            properties: {
-                list: {
-                    type: Array
-                },
+        var sleep = n => new Promise(resolve => setTimeout(resolve, n));
+        class DropMenu extends Polymer.mixinBehaviors([Polymer.NeonAnimationRunnerBehavior], Polymer.Element)  {
+            static get is() { return 'drop-menu'; }
+            static get properties() {return {
+                list: {type: Array},
                 // OverlayMenu at opening button
-                overlayMenu: {
-                    type: Boolean,
-                    value: false
-                },
+                overlayMenu: {type: Boolean,value: false},
                 // Displayed menu items
-                listItems: {
-                    type: Array,
-                    value: ['default']
-                },
+                listItems: {type: Array,value: ['default']},
                 // States if drop-menu is opened or close
-                state: {
-                    type: String,
-                    value: 'closed'
-                }
-            },
-            _action: function (e) {
+                state: {type: String,value: 'closed'}
+            }}
+            constructor() {
+                super();
+            }
+            _action (e) {
                 // var id = "#" + e.currentTarget.id;
                 // this.fire('menu-action', {action: this.$$(id).action});
                 this.fire('menu-action',{id:e.currentTarget.id})
-            },
-            _finishedAnim: function (e) {
+            }
+            _finishedAnim (e) {
                 if (this.state === 'closing') {
                     this.$.menu.style.display = 'none';
                     this.state = 'closed';
@@ -161,34 +126,42 @@ For an overlayed drop menu:
                 if (this.state === 'opening') {
                     this.state = 'open';
                 }
-            },
+            }
             /**
              * Opens drop-menu
              */
-            open: function () {
+            open () {
                 if (this.state === 'closed') {
                     this.$.menu.style.display = 'inline-block';
                     this.playAnimation('open');
                     this.$.toFocus.focus();
                     this.state = 'opening';
                 }
-            },
+            }
             /**
              * Closes drop-menu
              */
-            close: function () {
+            close () {
                 if (this.state === 'open') {
                     this.playAnimation('close');
                     this.state = 'closing';
                 }
-            },
-            _unFocus: function () {
-                this.async(function () {
-                    this.playAnimation('close');
-                    this.state = 'closing';
-                }, 200);
-            },
-            ready: function () {
+            }
+            async _unFocus () {
+                await sleep(200);
+                this.playAnimation('close');
+                this.state = 'closing';
+            }
+            connectedCallback() {
+                super.connectedCallback();
+                Polymer.RenderStatus.afterNextRender(this, function() {
+                    var nodeList = Polymer.dom(this.root).querySelectorAll('[itemWrapper]');
+                    this.animationConfig.open[3].nodes = Array.prototype.slice.call(nodeList);
+                });
+            }
+            ready() {
+                super.ready() ;
+                this.addEventListener('neon-animation-finish', e => this._finishedAnim(e));
                 this.animationConfig = {
                     'open': [
                         {
@@ -237,13 +210,8 @@ For an overlayed drop menu:
                 }
                 this.$.menu.style.display = 'none';
                 this.list = this.listItems;
-            },
-            attached: function () {
-                this.async(function () {
-                    var nodeList = Polymer.dom(this.root).querySelectorAll('[itemWrapper]');
-                    this.animationConfig.open[3].nodes = Array.prototype.slice.call(nodeList);
-                });
             }
-        });
+        }
+        customElements.define('drop-menu', DropMenu);
     </script>
 </dom-module>
