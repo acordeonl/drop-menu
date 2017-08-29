@@ -163,7 +163,6 @@
             }
             ready() {
                 super.ready() ;
-                this.addEventListener('neon-animation-finish', e => this._finishedAnim(e));
                 this.animationConfig = {
                     'open': [
                         {
@@ -212,6 +211,9 @@
                 }
                 this.$.menu.style.display = 'none';
                 this.list = this.listItems;
+                Polymer.RenderStatus.afterNextRender(this, function() {
+                    this.addEventListener('neon-animation-finish', e => this._finishedAnim(e));
+                });
             }
         }
         customElements.define('drop-menu', DropMenu);
